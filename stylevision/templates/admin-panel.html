@@ -1,0 +1,467 @@
+<div class="admin-panel" id="admin-panel">
+    <div class="admin-header">
+        <h2>🛠️ Panel Administrateur</h2>
+        <button class="admin-close" id="admin-close">&times;</button>
+    </div>
+
+    <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="dashboard">Tableau de Bord</button>
+        <button class="admin-tab" data-tab="habits">Vêtements</button>
+        <button class="admin-tab" data-tab="coiffures">Coiffures</button>
+        <button class="admin-tab" data-tab="vehicules">Véhicules</button>
+        <button class="admin-tab" data-tab="mannequins">Mannequins</button>
+        <button class="admin-tab" data-tab="settings">Paramètres</button>
+    </div>
+
+    <div class="admin-content">
+        <!-- Tableau de Bord -->
+        <div id="admin-dashboard" class="admin-tab-content active">
+            <h3>📊 Tableau de Bord</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>Vêtements</h4>
+                    <span class="stat-number" id="stats-clothing">0</span>
+                    <span class="stat-label">articles</span>
+                </div>
+                <div class="stat-card">
+                    <h4>Coiffures</h4>
+                    <span class="stat-number" id="stats-hairstyles">0</span>
+                    <span class="stat-label">modèles</span>
+                </div>
+                <div class="stat-card">
+                    <h4>Véhicules</h4>
+                    <span class="stat-number" id="stats-vehicles">0</span>
+                    <span class="stat-label">en vente</span>
+                </div>
+                <div class="stat-card">
+                    <h4>Mannequins</h4>
+                    <span class="stat-number" id="stats-mannequins">4</span>
+                    <span class="stat-label">disponibles</span>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h4>Actions Rapides</h4>
+                <div class="action-buttons">
+                    <button class="btn btn-small" data-action="export-data">📤 Exporter Données</button>
+                    <button class="btn btn-small" data-action="import-data">📥 Importer Données</button>
+                    <button class="btn btn-small" data-action="clear-cache">🗑️ Vider Cache</button>
+                    <button class="btn btn-small" data-action="backup">💾 Sauvegarde</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gestion des Vêtements -->
+        <div id="admin-habits" class="admin-tab-content">
+            <h3>👕 Gestion des Vêtements</h3>
+            
+            <div class="admin-section">
+                <h4>Ajouter un Vêtement</h4>
+                <form id="add-clothing-form" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nom du vêtement *</label>
+                            <input type="text" id="clothing-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Type *</label>
+                            <select id="clothing-type" required>
+                                <option value="">Choisir...</option>
+                                <option value="top">Haut</option>
+                                <option value="bottom">Bas</option>
+                                <option value="shoes">Chaussures</option>
+                                <option value="accessory">Accessoire</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Image (URL) *</label>
+                        <input type="url" id="clothing-image" required placeholder="https://exemple.com/image.jpg">
+                        <div class="image-preview" id="clothing-preview"></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Prix (€)</label>
+                            <input type="number" id="clothing-price" step="0.01" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Catégorie</label>
+                            <input type="text" id="clothing-category" placeholder="Homme, Femme, Enfant...">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="clothing-description" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Position 3D (JSON)</label>
+                        <textarea id="clothing-position" rows="4" placeholder='{"x": 100, "y": 150, "width": 200, "height": 250}'></textarea>
+                        <small>Coordonnées pour la superposition 3D</small>
+                    </div>
+                    
+                    <button type="submit" class="btn">➕ Ajouter le Vêtement</button>
+                </form>
+            </div>
+
+            <div class="admin-section">
+                <h4>Vêtements Existants</h4>
+                <div class="admin-table-container">
+                    <table class="admin-table" id="clothing-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Catégorie</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clothing-list">
+                            <!-- Chargé dynamiquement -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gestion des Coiffures -->
+        <div id="admin-coiffures" class="admin-tab-content">
+            <h3>💇 Gestion des Coiffures</h3>
+            
+            <div class="admin-section">
+                <h4>Ajouter une Coiffure</h4>
+                <form id="add-hairstyle-form" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nom de la coiffure *</label>
+                            <input type="text" id="hairstyle-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Catégorie *</label>
+                            <select id="hairstyle-category" required>
+                                <option value="">Choisir...</option>
+                                <option value="femme">Femme</option>
+                                <option value="homme">Homme</option>
+                                <option value="tresses">Tresses</option>
+                                <option value="coupes">Coupes</option>
+                                <option value="coloration">Coloration</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Image (URL) *</label>
+                        <input type="url" id="hairstyle-image" required placeholder="https://exemple.com/coiffure.jpg">
+                        <div class="image-preview" id="hairstyle-preview"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea id="hairstyle-description" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Difficulté</label>
+                            <select id="hairstyle-difficulty">
+                                <option value="1">⭐ Facile</option>
+                                <option value="2">⭐⭐ Moyen</option>
+                                <option value="3">⭐⭐⭐ Difficile</option>
+                                <option value="4">⭐⭐⭐⭐ Expert</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Durée estimée (min)</label>
+                            <input type="number" id="hairstyle-duration" min="5" max="180">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tags</label>
+                        <input type="text" id="hairstyle-tags" placeholder="cheveux longs, été, élégant...">
+                        <small>Séparez les tags par des virgules</small>
+                    </div>
+                    
+                    <button type="submit" class="btn">➕ Ajouter la Coiffure</button>
+                </form>
+            </div>
+
+            <div class="admin-section">
+                <h4>Coiffures Existantes</h4>
+                <div class="admin-table-container">
+                    <table class="admin-table" id="hairstyles-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Nom</th>
+                                <th>Catégorie</th>
+                                <th>Difficulté</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hairstyles-list">
+                            <!-- Chargé dynamiquement -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gestion des Véhicules -->
+        <div id="admin-vehicules" class="admin-tab-content">
+            <h3>🚗 Gestion des Véhicules</h3>
+            
+            <div class="admin-section">
+                <h4>Ajouter un Véhicule</h4>
+                <form id="add-vehicle-form" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Marque *</label>
+                            <input type="text" id="vehicle-brand" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Modèle *</label>
+                            <input type="text" id="vehicle-model" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Type *</label>
+                            <select id="vehicle-type" required>
+                                <option value="">Choisir...</option>
+                                <option value="voiture">Voiture</option>
+                                <option value="moto">Moto</option>
+                                <option value="suv">SUV</option>
+                                <option value="luxe">Véhicule de Luxe</option>
+                                <option value="utilitaire">Utilitaire</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Prix (€) *</label>
+                            <input type="number" id="vehicle-price" required min="0" step="100">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Image (URL) *</label>
+                        <input type="url" id="vehicle-image" required placeholder="https://exemple.com/vehicle.jpg">
+                        <div class="image-preview" id="vehicle-preview"></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Année *</label>
+                            <input type="number" id="vehicle-year" required min="1990" max="2024">
+                        </div>
+                        <div class="form-group">
+                            <label>Kilométrage</label>
+                            <input type="number" id="vehicle-mileage" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Carburant *</label>
+                            <select id="vehicle-fuel" required>
+                                <option value="">Choisir...</option>
+                                <option value="essence">Essence</option>
+                                <option value="diesel">Diesel</option>
+                                <option value="electrique">Électrique</option>
+                                <option value="hybride">Hybride</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Transmission</label>
+                            <select id="vehicle-transmission">
+                                <option value="manuelle">Manuelle</option>
+                                <option value="automatique">Automatique</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="vehicle-description" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Caractéristiques</label>
+                        <div class="features-grid">
+                            <label><input type="checkbox" name="features" value="climatisation"> Climatisation</label>
+                            <label><input type="checkbox" name="features" value="gps"> GPS</label>
+                            <label><input type="checkbox" name="features" value="bluetooth"> Bluetooth</label>
+                            <label><input type="checkbox" name="features" value="camera"> Caméra de recul</label>
+                            <label><input type="checkbox" name="features" value="cuir"> Sièges cuir</label>
+                            <label><input type="checkbox" name="features" value="toit_ouvrant"> Toit ouvrant</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn">➕ Ajouter le Véhicule</button>
+                </form>
+            </div>
+
+            <div class="admin-section">
+                <h4>Véhicules Existants</h4>
+                <div class="admin-table-container">
+                    <table class="admin-table" id="vehicles-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Marque/Modèle</th>
+                                <th>Type</th>
+                                <th>Prix</th>
+                                <th>Année</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vehicles-list">
+                            <!-- Chargé dynamiquement -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gestion des Mannequins -->
+        <div id="admin-mannequins" class="admin-tab-content">
+            <h3>👤 Gestion des Mannequins 3D</h3>
+            
+            <div class="admin-section">
+                <h4>Ajouter un Mannequin</h4>
+                <form id="add-mannequin-form" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nom du mannequin *</label>
+                            <input type="text" id="mannequin-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Type *</label>
+                            <select id="mannequin-type" required>
+                                <option value="">Choisir...</option>
+                                <option value="male">Homme</option>
+                                <option value="female">Femme</option>
+                                <option value="child">Enfant</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Image de prévisualisation (URL) *</label>
+                        <input type="url" id="mannequin-image" required>
+                        <div class="image-preview" id="mannequin-preview"></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Modèle 3D (URL .glb)</label>
+                            <input type="url" id="mannequin-model" placeholder="https://exemple.com/modele.glb">
+                        </div>
+                        <div class="form-group">
+                            <label>Échelle</label>
+                            <input type="number" id="mannequin-scale" step="0.1" min="0.5" max="2" value="1.0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Positions disponibles</label>
+                        <div class="positions-grid">
+                            <label><input type="checkbox" name="poses" value="standing" checked> Debout</label>
+                            <label><input type="checkbox" name="poses" value="walking"> Marchant</label>
+                            <label><input type="checkbox" name="poses" value="sitting"> Assis</label>
+                            <label><input type="checkbox" name="poses" value="dancing"> Danse</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn">➕ Ajouter le Mannequin</button>
+                </form>
+            </div>
+
+            <div class="admin-section">
+                <h4>Mannequins Disponibles</h4>
+                <div class="mannequins-grid grid grid-3" id="mannequins-list">
+                    <!-- Chargé dynamiquement -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Paramètres -->
+        <div id="admin-settings" class="admin-tab-content">
+            <h3>⚙️ Paramètres du Site</h3>
+            
+            <div class="admin-section">
+                <h4>Général</h4>
+                <form id="settings-form" class="admin-form">
+                    <div class="form-group">
+                        <label>Nom du site</label>
+                        <input type="text" id="site-name" value="StyleVision">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description du site</label>
+                        <textarea id="site-description" rows="2">Votre destination complète pour la mode, la beauté et les véhicules</textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Couleur principale</label>
+                            <input type="color" id="primary-color" value="#6a5acd">
+                        </div>
+                        <div class="form-group">
+                            <label>Couleur secondaire</label>
+                            <input type="color" id="secondary-color" value="#ff6b6b">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Logo (URL)</label>
+                        <input type="url" id="site-logo" placeholder="https://exemple.com/logo.png">
+                    </div>
+                </form>
+            </div>
+
+            <div class="admin-section">
+                <h4>Sécurité</h4>
+                <div class="form-group">
+                    <label>Mot de passe administrateur</label>
+                    <input type="password" id="admin-password" placeholder="Nouveau mot de passe">
+                    <small>Laissez vide pour ne pas changer</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Accès API</label>
+                    <input type="text" id="api-key" placeholder="Clé API pour services externes">
+                </div>
+            </div>
+
+            <div class="admin-section">
+                <h4>Maintenance</h4>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="maintenance-mode"> Mode maintenance
+                    </label>
+                    <small>Le site sera inaccessible aux visiteurs</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Message de maintenance</label>
+                    <textarea id="maintenance-message" rows="2">Site en maintenance - Retour très bientôt !</textarea>
+                </div>
+            </div>
+
+            <div class="admin-actions">
+                <button class="btn btn-secondary" id="save-settings">💾 Sauvegarder les paramètres</button>
+                <button class="btn" id="reset-settings">🔄 Restaurer les défauts</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-message" class="message"></div>
+</div>
+
+<!-- Overlay pour fermer le panel -->
+<div class="admin-overlay" id="admin-overlay"></div>

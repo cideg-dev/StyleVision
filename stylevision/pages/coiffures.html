@@ -1,0 +1,69 @@
+<div class="page-section">
+    <h1 class="section-title">Coiffures & Tresses</h1>
+    
+    <!-- Filtres -->
+    <div class="filters-section">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">Toutes</button>
+            <button class="filter-btn" data-filter="femme">Femmes</button>
+            <button class="filter-btn" data-filter="homme">Hommes</button>
+            <button class="filter-btn" data-filter="tresses">Tresses</button>
+            <button class="filter-btn" data-filter="coupes">Coupes</button>
+            <button class="filter-btn" data-filter="coloration">Coloration</button>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" id="hairstyle-search" placeholder="Rechercher une coiffure...">
+        </div>
+    </div>
+
+    <!-- Galerie de coiffures -->
+    <div class="hairstyles-gallery">
+        <div class="grid grid-3" id="hairstyles-container">
+            <!-- Chargé dynamiquement -->
+        </div>
+    </div>
+
+    <!-- Essayage virtuel de coiffures -->
+    <div class="virtual-hairstyle-section">
+        <h3>Essayage Virtuel</h3>
+        <div class="hairstyle-tryon">
+            <div class="head-model">
+                <div id="head-3d-container" style="width: 100%; height: 400px; background: #f8f9fa; border-radius: 12px;"></div>
+            </div>
+            
+            <div class="hairstyle-controls">
+                <h4>Appliquez une coiffure</h4>
+                <div class="selected-hairstyle" id="selected-hairstyle-preview">
+                    <span>Aucune coiffure sélectionnée</span>
+                </div>
+                
+                <div class="adjustment-controls">
+                    <label>Taille: <input type="range" id="hairstyle-scale" min="0.5" max="1.5" step="0.1" value="1"></label>
+                    <label>Rotation: <input type="range" id="hairstyle-rotation" min="0" max="360" value="0"></label>
+                    <label>Position Y: <input type="range" id="hairstyle-position-y" min="-0.5" max="0.5" step="0.1" value="0"></label>
+                </div>
+                
+                <button id="apply-hairstyle" class="btn" disabled>Appliquer</button>
+                <button id="save-hairstyle" class="btn btn-secondary" disabled>Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutoriels -->
+    <div class="tutorials-section">
+        <h3>Tutoriels & Conseils</h3>
+        <div class="tutorials-grid grid grid-2">
+            <div class="tutorial-card">
+                <h4>Entretien des cheveux</h4>
+                <p>Conseils pour maintenir vos cheveux en bonne santé</p>
+                <button class="btn btn-small">Voir le guide</button>
+            </div>
+            <div class="tutorial-card">
+                <h4>Tresses basiques</h4>
+                <p>Apprenez les techniques de tressage fondamentales</p>
+                <button class="btn btn-small">Apprendre</button>
+            </div>
+        </div>
+    </div>
+</div>

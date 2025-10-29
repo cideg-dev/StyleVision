@@ -1,0 +1,355 @@
+/* Section d'essayage */
+.tryon-section {
+    margin: 30px 0;
+}
+
+.tryon-3d-container {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+/* Contrôles 3D */
+.controls-3d {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+}
+
+.controls-3d h4 {
+    margin-bottom: 15px;
+    color: var(--dark-color);
+}
+
+.pose-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.rotation-controls,
+.adjustment-controls {
+    margin-bottom: 20px;
+}
+
+.slider {
+    width: 100%;
+    margin: 10px 0;
+}
+
+/* Sélection de mannequin */
+.mannequin-section {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.mannequin-option {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.mannequin-option:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.mannequin-option.active {
+    border-color: var(--primary-color);
+    background: rgba(106, 90, 205, 0.05);
+}
+
+.mannequin-option img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.mannequin-option span {
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+/* Téléversement photo */
+.user-photo-section {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.photo-upload-area {
+    text-align: center;
+    padding: 30px;
+    border: 2px dashed #dee2e6;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.photo-upload-area:hover {
+    border-color: var(--primary-color);
+    background: rgba(106, 90, 205, 0.02);
+}
+
+.photo-preview {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.photo-preview img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.file-input {
+    margin: 15px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Sélection de vêtements */
+.clothing-selection {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.category-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.category-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.category-section h3 {
+    margin-bottom: 15px;
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Cartes de vêtements */
+.clothing-item {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+}
+
+.clothing-item:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.clothing-item.active {
+    border-color: var(--primary-color);
+    background: rgba(106, 90, 205, 0.05);
+}
+
+.clothing-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.clothing-info {
+    padding: 15px;
+}
+
+.clothing-info h4 {
+    margin-bottom: 5px;
+    color: var(--dark-color);
+    font-size: 0.9rem;
+}
+
+.btn-try {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.btn-try:hover {
+    background: #5a4abc;
+    transform: translateY(-2px);
+}
+
+/* Boutons d'action */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* État de chargement */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+/* Indicateurs 3D */
+.three-d-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--primary-color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Réactivité pour mobile */
+@media (max-width: 768px) {
+    .tryon-3d-container {
+        padding: 15px;
+    }
+    
+    .pose-controls {
+        justify-content: center;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .photo-preview {
+        min-height: 150px;
+    }
+    
+    .clothing-item img {
+        height: 120px;
+    }
+}
+
+/* Animations spécifiques à l'essayage */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.clothing-item {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.clothing-item:nth-child(odd) {
+    animation-delay: 0.1s;
+}
+
+.clothing-item:nth-child(even) {
+    animation-delay: 0.2s;
+}
+
+/* États de sélection */
+.type-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.type-badge.top {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.type-badge.bottom {
+    background: #e8f5e8;
+    color: #388e3c;
+}
+
+.type-badge.shoes {
+    background: #fce4ec;
+    color: #c2185b;
+}
+
+.type-badge.accessory {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+/* Mode contraste élevé */
+@media (prefers-contrast: high) {
+    .clothing-item {
+        border-width: 3px;
+    }
+    
+    .mannequin-option.active {
+        border-width: 3px;
+    }
+}
+
+/* Support réduit d'animation */
+@media (prefers-reduced-motion: reduce) {
+    .clothing-item,
+    .mannequin-option {
+        animation: none;
+        transition: none;
+    }
+}

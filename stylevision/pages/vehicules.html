@@ -1,0 +1,146 @@
+<div class="page-section">
+    <h1 class="section-title">Véhicules en Vente</h1>
+    
+    <!-- Filtres véhicules -->
+    <div class="vehicle-filters">
+        <div class="filter-group">
+            <label>Type:</label>
+            <select id="vehicle-type">
+                <option value="all">Tous</option>
+                <option value="voiture">Voitures</option>
+                <option value="moto">Motos</option>
+                <option value="suv">SUV</option>
+                <option value="luxe">Luxe</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label>Prix max:</label>
+            <input type="range" id="price-range" min="0" max="100000" step="1000" value="50000">
+            <span id="price-display">50,000 €</span>
+        </div>
+        
+        <div class="filter-group">
+            <label>Marque:</label>
+            <select id="vehicle-brand">
+                <option value="all">Toutes</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="bmw">BMW</option>
+                <option value="audi">Audi</option>
+                <option value="tesla">Tesla</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Galerie de véhicules -->
+    <div class="vehicles-gallery">
+        <div class="grid grid-3" id="vehicles-container">
+            <!-- Chargé dynamiquement -->
+        </div>
+    </div>
+
+    <!-- Visualisation 3D du véhicule -->
+    <div class="vehicle-visualization-section">
+        <h3>Visualisation 3D</h3>
+        <div class="vehicle-3d-view">
+            <div id="vehicle-3d-container" style="width: 100%; height: 500px; background: #1a1a1a; border-radius: 12px;"></div>
+            
+            <!-- Contrôles véhicule -->
+            <div class="vehicle-controls">
+                <h4>Vues du véhicule</h4>
+                <div class="view-buttons">
+                    <button class="btn btn-small view-btn" data-view="exterior">Extérieur</button>
+                    <button class="btn btn-small view-btn" data-view="interior">Intérieur</button>
+                    <button class="btn btn-small view-btn" data-view="engine">Moteur</button>
+                    <button class="btn btn-small view-btn" data-view="trunk">Coffre</button>
+                </div>
+                
+                <div class="position-buttons">
+                    <button class="btn btn-small position-btn" data-position="driver">Conducteur</button>
+                    <button class="btn btn-small position-btn" data-position="passenger">Passager</button>
+                    <button class="btn btn-small position-btn" data-position="backseat">Arrière</button>
+                    <button class="btn btn-small position-btn" data-position="standing">Debout à côté</button>
+                </div>
+                
+                <div class="door-controls">
+                    <h4>Portières</h4>
+                    <button class="btn btn-small door-btn" data-door="driver">Portière conducteur</button>
+                    <button class="btn btn-small door-btn" data-door="passenger">Portière passager</button>
+                    <button class="btn btn-small door-btn" data-door="trunk">Coffre</button>
+                    <button class="btn btn-small door-btn" data-door="hood">Capot</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informations véhicule sélectionné -->
+    <div class="vehicle-details" id="vehicle-details" style="display: none;">
+        <h3 id="vehicle-name"></h3>
+        <div class="vehicle-specs">
+            <div class="spec-item">
+                <span class="spec-label">Prix:</span>
+                <span class="spec-value" id="vehicle-price"></span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-label">Année:</span>
+                <span class="spec-value" id="vehicle-year"></span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-label">Kilométrage:</span>
+                <span class="spec-value" id="vehicle-mileage"></span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-label">Carburant:</span>
+                <span class="spec-value" id="vehicle-fuel"></span>
+            </div>
+        </div>
+        
+        <div class="vehicle-actions">
+            <button class="btn btn-secondary">Contacter le vendeur</button>
+            <button class="btn btn-accent">Prendre rendez-vous</button>
+            <button class="btn">Favoris</button>
+        </div>
+    </div>
+
+    <!-- Simulation de financement -->
+    <div class="financing-section">
+        <h3>Simulation de Financement</h3>
+        <div class="financing-calculator">
+            <div class="calculator-inputs">
+                <div class="input-group">
+                    <label>Prix du véhicule:</label>
+                    <input type="number" id="vehicle-price-input" value="30000">
+                </div>
+                <div class="input-group">
+                    <label>Apport:</label>
+                    <input type="number" id="down-payment" value="5000">
+                </div>
+                <div class="input-group">
+                    <label>Durée (mois):</label>
+                    <input type="range" id="loan-term" min="12" max="84" value="48">
+                    <span id="term-display">48 mois</span>
+                </div>
+                <div class="input-group">
+                    <label>Taux d'intérêt:</label>
+                    <input type="range" id="interest-rate" min="1" max="10" step="0.1" value="3.5">
+                    <span id="rate-display">3.5%</span>
+                </div>
+            </div>
+            
+            <div class="calculator-results">
+                <div class="result-item">
+                    <span>Mensualité:</span>
+                    <strong id="monthly-payment">€563.50</strong>
+                </div>
+                <div class="result-item">
+                    <span>Total intérêts:</span>
+                    <span id="total-interest">€2,048.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Coût total:</span>
+                    <strong id="total-cost">€32,048.00</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

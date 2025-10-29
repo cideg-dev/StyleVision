@@ -1,0 +1,85 @@
+<div class="page-section">
+    <h1 class="section-title">Essayage d'Habits</h1>
+    
+    <!-- Sélection de mannequin -->
+    <div class="mannequin-section">
+        <h3>Choisissez votre mannequin</h3>
+        <div class="grid grid-4" id="mannequin-selection">
+            <!-- Les mannequins seront chargés dynamiquement -->
+        </div>
+    </div>
+
+    <!-- Zone d'essayage 3D -->
+    <div class="tryon-section">
+        <div class="tryon-3d-container">
+            <div id="tryon-3d-container" style="width: 100%; height: 500px; border-radius: 12px; background: #f8f9fa;"></div>
+            
+            <!-- Contrôles 3D -->
+            <div class="controls-3d">
+                <h4>Positions</h4>
+                <div class="pose-controls">
+                    <button class="btn btn-small pose-btn" data-pose="standing">Debout</button>
+                    <button class="btn btn-small pose-btn" data-pose="walking">Marchant</button>
+                    <button class="btn btn-small pose-btn" data-pose="sitting">Assis</button>
+                    <button class="btn btn-small pose-btn" data-pose="dancing">Danse</button>
+                </div>
+                
+                <div class="rotation-controls">
+                    <h4>Rotation</h4>
+                    <input type="range" id="rotation-slider" min="0" max="360" value="0" class="slider">
+                </div>
+            </div>
+        </div>
+
+        <!-- Téléversement photo utilisateur -->
+        <div class="user-photo-section">
+            <h3>Ou utilisez votre photo</h3>
+            <div class="photo-upload-area">
+                <div id="photo-preview" class="photo-preview">
+                    <span>Votre photo apparaîtra ici</span>
+                </div>
+                <input type="file" id="user-photo-upload" accept="image/*" class="file-input">
+                <div id="photo-loading" class="spinner" style="display: none;"></div>
+                <button id="remove-background-btn" class="btn btn-small" disabled>Supprimer le fond</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sélection des vêtements -->
+    <div class="clothing-selection">
+        <div class="category-section">
+            <h3>Hauts</h3>
+            <div class="grid grid-4" id="tops-container">
+                <!-- Chargé dynamiquement -->
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h3>Bas</h3>
+            <div class="grid grid-4" id="bottoms-container">
+                <!-- Chargé dynamiquement -->
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h3>Chaussures</h3>
+            <div class="grid grid-4" id="shoes-container">
+                <!-- Chargé dynamiquement -->
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h3>Accessoires</h3>
+            <div class="grid grid-4" id="accessories-container">
+                <!-- Chargé dynamiquement -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-buttons">
+        <button id="save-outfit" class="btn btn-secondary">Sauvegarder l'outfit</button>
+        <button id="share-outfit" class="btn btn-accent">Partager</button>
+        <button id="reset-outfit" class="btn">Réinitialiser</button>
+    </div>
+</div>
