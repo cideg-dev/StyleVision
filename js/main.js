@@ -56,8 +56,11 @@ class StyleVisionApp {
             const html = await response.text();
             document.getElementById('app-content').innerHTML = html;
 
-            // Initialiser le JavaScript spécifique à la page
-            await this.initializePageScript(page);
+            // Introduce a small delay to allow DOM to update
+            setTimeout(async () => {
+                // Initialiser le JavaScript spécifique à la page
+                await this.initializePageScript(page);
+            }, 50); // 50ms delay
         } catch (error) {
             console.error(`Erreur chargement page ${page}:`, error);
             document.getElementById('app-content').innerHTML = `
