@@ -79,12 +79,8 @@ class HabitsPage {
     }
 
     setupMannequinSelection() {
-        const mannequins = [
-            { id: 'male_slim', name: 'Homme Sportif', image: 'assets/mannequins/male_slim.jpg' },
-            { id: 'female_curvy', name: 'Femme Curvy', image: 'assets/mannequins/female_curvy.jpg' },
-            { id: 'male_muscular', name: 'Homme Musclé', image: 'assets/mannequins/male_muscular.jpg' },
-            { id: 'female_slim', name: 'Femme Élégante', image: 'assets/mannequins/female_slim.jpg' }
-        ];
+        // Use data from the backend
+        const mannequins = this.backend.getData().mannequins;
 
         const container = document.getElementById('mannequin-selection');
         if (container) {
@@ -106,9 +102,12 @@ class HabitsPage {
         });
         mannequinElement.classList.add('active');
 
+        // Get the full mannequin data from the backend
+        const mannequinData = this.backend.getData().mannequins.find(m => m.id === mannequinId);
+
         // Charger le mannequin dans la scène 3D
-        if (this.tryon3d) {
-            await this.tryon3d.loadMannequin(mannequinId);
+        if (this.tryon3d && mannequinData) { // Check if mannequinData exists
+            await this.tryon3d.loadMannequin(mannequinData); // Pass the full object
             this.currentMannequin = mannequinId;
         }
 
@@ -174,6 +173,14 @@ class HabitsPage {
         
         // En production, vous utiliseriez:
         // return await BackgroundRemoval.removeBackground(imageUrl);
+    }
+
+    updateUserPhotoDisplay(imageUrl) {
+        const preview = document.getElementById('photo-preview');
+        if (preview) {
+            preview.innerHTML = `<img src="${imageUrl}" alt="Aperçu utilisateur" style="max-width: 100%; height: auto;">`;
+            document.getElementById('remove-background-btn').disabled = false;
+        }
     }
 
     reapplySelectedClothes() {

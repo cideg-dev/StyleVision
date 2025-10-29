@@ -7,7 +7,15 @@ class Tryon3D {
         this.controls = null;
         this.mannequin = null;
         this.clothes = [];
+        this.loader = new THREE.GLTFLoader(); // Initialize GLTFLoader
         
+        // Animation properties
+        this.mixer = null;
+        this.actions = {};
+        this.activeAction = null;
+        this.lastAction = null;
+        this.clock = new THREE.Clock();
+
         this.init();
     }
 
@@ -17,8 +25,8 @@ class Tryon3D {
         this.setupRenderer();
         this.setupControls();
         this.setupLighting();
-        this.loadDefaultMannequins();
         this.animate();
+        window.addEventListener('resize', () => this.onResize());
     }
 
     setupScene() {
@@ -62,108 +70,122 @@ class Tryon3D {
         this.scene.add(directionalLight);
     }
 
-    async loadDefaultMannequins() {
-        const mannequins = [
-            { id: 'male_slim', name: 'Homme Sportif', scale: 1.0 },
-            { id: 'female_curvy', name: 'Femme Curvy', scale: 0.95 },
-            { id: 'male_muscular', name: 'Homme Musclé', scale: 1.05 },
-            { id: 'female_slim', name: 'Femme Élégante', scale: 0.9 }
-        ];
+    async loadMannequin(mannequinData) {
+        if (this.mannequin) {
+            this.scene.remove(this.mannequin);
+            this.mannequin = null;
+            this.clothes = []; // Clear clothes when changing mannequin
+            this.mixer = null;
+            this.actions = {};
+            this.activeAction = null;
+            this.lastAction = null;
+        }
 
-        // Créer des mannequins basiques en attendant les modèles 3D
-        mannequins.forEach((mannequin, index) => {
-            this.createBasicMannequin(mannequin, index);
-        });
-    }
+        if (!mannequinData || !mannequinData.model) {
+            console.warn('Aucune donnée de modèle 3D pour le mannequin fourni.');
+            return;
+        }
 
-    createBasicMannequin(mannequin, index) {
-        const group = new THREE.Group();
-        
-        // Corps
-        const bodyGeometry = new THREE.CapsuleGeometry(0.3, 1.2, 4, 8);
-        const bodyMaterial = new THREE.MeshLambertMaterial({ 
-            color: 0xffcc99,
-            transparent: true,
-            opacity: 0.8
-        });
-        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-        body.position.y = 0.6;
-        group.add(body);
+        try {
+            const gltf = await this.loader.loadAsync(mannequinData.model);
+            this.mannequin = gltf.scene;
+            this.mannequin.scale.set(mannequinData.scale, mannequinData.scale, mannequinData.scale);
+            this.mannequin.position.set(0, 0, 0);
+            this.mannequin.traverse((node) => {
+                if (node.isMesh) {
+                    node.castShadow = true;
+                    node.receiveShadow = true;
+                }
+            });
+            this.scene.add(this.mannequin);
+            console.log(`Mannequin 3D chargé: ${mannequinData.name}`);
 
-        // Tête
-        const headGeometry = new THREE.SphereGeometry(0.2, 16, 16);
-        const headMaterial = new THREE.MeshLambertMaterial({ color: 0xffcc99 });
-        const head = new THREE.Mesh(headGeometry, headMaterial);
-        head.position.y = 1.5;
-        group.add(head);
+            // Setup animations if available
+            if (gltf.animations && gltf.animations.length) {
+                this.mixer = new THREE.AnimationMixer(this.mannequin);
+                gltf.animations.forEach((clip) => {
+                    const action = this.mixer.clipAction(clip);
+                    this.actions[clip.name] = action;
+                    if (clip.name === 'idle' || clip.name === 'standing') { // Default animation
+                        this.activeAction = action;
+                        action.play();
+                    }
+                });
+                if (!this.activeAction && Object.values(this.actions).length > 0) {
+                    this.activeAction = Object.values(this.actions)[0];
+                    this.activeAction.play();
+                }
+            } else {
+                console.log('Aucune animation trouvée pour ce mannequin.');
+            }
 
-        group.position.x = (index - 1.5) * 1.5;
-        group.userData = mannequin;
-        
-        this.scene.add(group);
-    }
-
-    async loadMannequin(mannequinId) {
-        // Ici, vous chargeriez un vrai modèle 3D
-        console.log(`Chargement mannequin: ${mannequinId}`);
+        } catch (error) {
+            console.error(`Erreur chargement mannequin 3D (${mannequinData.model}):`, error);
+        }
     }
 
     async tryClothing(clothingItem, type) {
-        // Appliquer le vêtement sur le mannequin 3D
-        const clothingMesh = await this.createClothingMesh(clothingItem, type);
-        
-        if (this.mannequin) {
+        if (!this.mannequin) {
+            console.warn('Aucun mannequin chargé pour essayer le vêtement.');
+            return;
+        }
+
+        // Remove existing clothing of the same type
+        this.clothes = this.clothes.filter(c => {
+            if (c.type === type) {
+                this.mannequin.remove(c.mesh);
+                return false;
+            }
+            return true;
+        });
+
+        if (!clothingItem || !clothingItem.model) {
+            console.warn(`Aucune donnée de modèle 3D pour le vêtement de type ${type} fourni.`);
+            return;
+        }
+
+        try {
+            const gltf = await this.loader.loadAsync(clothingItem.model);
+            const clothingMesh = gltf.scene;
+
+            // Basic positioning - this will need to be refined based on actual models
+            // For now, just add it to the mannequin and adjust position/scale
+            clothingMesh.scale.set(clothingItem.scale || 1, clothingItem.scale || 1, clothingItem.scale || 1);
+            clothingMesh.position.set(clothingItem.position?.x || 0, clothingItem.position?.y || 0, clothingItem.position?.z || 0);
+
             this.mannequin.add(clothingMesh);
             this.clothes.push({ mesh: clothingMesh, type: type });
+            console.log(`Vêtement 3D (${clothingItem.name}) appliqué.`);
+        } catch (error) {
+            console.error(`Erreur chargement vêtement 3D (${clothingItem.model}):`, error);
         }
-    }
-
-    async createClothingMesh(clothingItem, type) {
-        // Créer un mesh basique pour le vêtement
-        let geometry, material;
-        
-        switch(type) {
-            case 'top':
-                geometry = new THREE.BoxGeometry(0.8, 0.6, 0.4);
-                break;
-            case 'bottom':
-                geometry = new THREE.BoxGeometry(0.7, 0.8, 0.4);
-                break;
-            case 'shoes':
-                geometry = new THREE.BoxGeometry(0.2, 0.1, 0.5);
-                break;
-        }
-        
-        material = new THREE.MeshLambertMaterial({ 
-            color: Math.random() * 0xffffff 
-        });
-        
-        return new THREE.Mesh(geometry, material);
     }
 
     changePose(poseName) {
-        // Changer la pose du mannequin
-        const poses = {
-            'standing': { rotation: { x: 0, y: 0, z: 0 } },
-            'walking': { rotation: { x: 0, y: 0.5, z: 0 } },
-            'sitting': { rotation: { x: -0.5, y: 0, z: 0 } }
-        };
-        
-        const pose = poses[poseName];
-        if (pose && this.mannequin) {
-            // Animer vers la nouvelle pose
-            this.animateToPose(pose);
-        }
-    }
+        if (this.mixer && this.mannequin && this.actions[poseName]) {
+            this.lastAction = this.activeAction;
+            this.activeAction = this.actions[poseName];
 
-    animateToPose(targetPose) {
-        // Animation vers la nouvelle pose
-        // Implémentation simplifiée
+            if (this.lastAction !== this.activeAction) {
+                this.lastAction.stop(); // Stop the previous action
+                this.activeAction.reset().play(); // Play the new action
+                // Optional: crossfade for smoother transitions
+                // this.activeAction.crossFadeFrom(this.lastAction, 0.5, true);
+                // this.activeAction.play();
+            }
+        } else {
+            console.warn(`Impossible de changer la pose en ${poseName}. Animation non trouvée ou mixer non initialisé.`);
+        }
     }
 
     animate() {
         requestAnimationFrame(() => this.animate());
         
+        const delta = this.clock.getDelta();
+        if (this.mixer) {
+            this.mixer.update(delta);
+        }
+
         if (this.controls) {
             this.controls.update();
         }
