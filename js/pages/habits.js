@@ -81,6 +81,7 @@ class HabitsPage {
     setupMannequinSelection() {
         // Use data from the backend
         const mannequins = this.backend.getData().mannequins;
+        console.log('Mannequins loaded from backend:', mannequins); // <--- Added console.log
 
         const container = document.getElementById('mannequin-selection');
         if (container) {
